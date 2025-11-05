@@ -1,4 +1,4 @@
-const { NotImplementedError } = require('../lib');
+const { NotImplementedError } = require("../lib");
 
 /**
  * Implement class VigenereCipheringMachine that allows us to create
@@ -19,15 +19,54 @@ const { NotImplementedError } = require('../lib');
  * reverseMachine.decrypt('AEIHQX SX DLLU!', 'alphonse') => '!NWAD TA KCATTA'
  *
  */
+
 class VigenereCipheringMachine {
-  encrypt() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  constructor(direct = true) {
+    this.direct = direct;
   }
 
-  decrypt() {
-    // Remove line below and write your code here
-    throw new NotImplementedError('Not implemented');
+  encrypt(message, key) {
+    if (!message || !key) {
+      throw new Error("Incorrect arguments!");
+    }
+    return this.processText(message, key, true);
+  }
+
+  decrypt(encryptedMessage, key) {
+    if (!encryptedMessage || !key) {
+      throw new Error("Incorrect arguments!");
+    }
+    return this.processText(encryptedMessage, key, false);
+  }
+
+  processText(text, key, encrypt) {
+    const upperText = text.toUpperCase();
+    const upperKey = key.toUpperCase();
+    let result = "";
+    let keyIndex = 0;
+
+    for (let i = 0; i < upperText.length; i++) {
+      const char = upperText[i];
+
+      if (char >= "A" && char <= "Z") {
+        const textCode = char.charCodeAt(0) - 65;
+        const keyCode = upperKey[keyIndex % upperKey.length].charCodeAt(0) - 65;
+
+        let processedCode;
+        if (encrypt) {
+          processedCode = (textCode + keyCode) % 26;
+        } else {
+          processedCode = (textCode - keyCode + 26) % 26;
+        }
+
+        result += String.fromCharCode(processedCode + 65);
+        keyIndex++;
+      } else {
+        result += char;
+      }
+    }
+
+    return this.direct ? result : result.split("").reverse().join("");
   }
 }
 
