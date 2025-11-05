@@ -13,15 +13,26 @@ const HALF_LIFE_PERIOD = 5730;
  *
  * @example
  *
- * dateSample('1') => 22387
- * dateSample('WOOT!') => false
+ * dateSample("1") //=> 22387
+ * dateSample("WOOT!"); // => false
  *
  */
-function dateSample(/* sampleActivity */) {
-  return (
-    (Math.log(MODERN_ACTIVITY / sampleActivity) * HALF_LIFE_PERIOD) /
-    Math.log(2)
-  );
+
+function dateSample(sampleActivity) {
+  if (typeof sampleActivity !== "string") {
+    return false;
+  }
+
+  const activity = parseFloat(sampleActivity);
+
+  if (isNaN(activity) || activity <= 0 || activity >= MODERN_ACTIVITY) {
+    return false;
+  }
+
+  const decayConstant = Math.LN2 / HALF_LIFE_PERIOD; // Константа распада (λ)
+  const age = Math.log(MODERN_ACTIVITY / activity) / decayConstant;
+
+  return Math.round(age);
 }
 
 module.exports = {
