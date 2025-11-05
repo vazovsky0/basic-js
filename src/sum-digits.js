@@ -14,7 +14,20 @@ const { NotImplementedError } = require("../lib");
  */
 function getSumOfDigits(n) {
   // Remove line below and write your code here
-  throw new NotImplementedError("Not implemented");
+  let copyN = n;
+  let sum = 0;
+  while (true) {
+    sum += copyN % 10;
+    copyN = Math.floor(copyN / 10);
+    if (copyN === 0) {
+      if (sum < 10) {
+        return sum;
+      } else {
+        copyN = sum;
+        sum = 0;
+      }
+    }
+  }
 }
 
 module.exports = {
