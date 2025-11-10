@@ -13,20 +13,22 @@ const { NotImplementedError } = require("../lib");
  * createDreamTeam(['Olivia', 1111, 'Lily', 'Oscar', true, null]) => 'LOO'
  *
  */
+
 function createDreamTeam(members) {
-  // Remove line below and write your code here
-  let result = [];
-  if (Array.isArray(members)) {
-    for (let i = 0; i < members.length; i++) {
-      let member = members[i];
-      if (typeof member === "string") {
-        result.push(member.toUpperCase().charAt(0));
+  if (!Array.isArray(members)) return false;
+
+  const letters = [];
+
+  for (const member of members) {
+    if (typeof member === "string") {
+      const firstLetter = member.trim()[0];
+      if (firstLetter) {
+        letters.push(firstLetter.toUpperCase());
       }
     }
-    return result.sort().join("");
-  } else {
-    return false;
   }
+
+  return letters.sort().join("");
 }
 
 module.exports = {
