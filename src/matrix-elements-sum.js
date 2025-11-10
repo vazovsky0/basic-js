@@ -17,27 +17,21 @@ const { NotImplementedError } = require("../lib");
  */
 
 function getMatrixElementsSum(matrix) {
-  if (!Array.isArray(matrix)) {
-    throw new Error("'matrix' parameter must be an instance of the Array!");
-  }
+  if (!matrix || matrix.length === 0) return 0;
 
-  const numRows = matrix.length;
-  if (numRows === 0) {
-    return 0;
-  }
+  let sum = 0;
+  const cols = matrix[0].length;
 
-  const numCols = matrix[0].length;
-  let totalSum = 0;
-
-  for (let j = 0; j < numCols; j++) {
-    for (let i = 0; i < numRows; i++) {
-      const element = matrix[i][j];
-      if (element === 0) {
-        break;
-      }
-      totalSum += element;
+  for (let j = 0; j < cols; j++) {
+    for (let i = 0; i < matrix.length; i++) {
+      if (matrix[i][j] === 0) break;
+      sum += matrix[i][j];
     }
   }
 
-  return totalSum;
+  return sum;
 }
+
+module.exports = {
+  getMatrixElementsSum,
+};
